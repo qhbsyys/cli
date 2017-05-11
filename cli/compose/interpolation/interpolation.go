@@ -42,7 +42,7 @@ func interpolateSectionItem(
 		if err != nil {
 			return nil, errors.Errorf(
 				"Invalid interpolation format for %#v option in %s %#v: %#v. You may need to escape any $ with another $.",
-				key, section, name, err.Template,
+				key, section, name, err.(*template.InvalidTemplateError).Template,
 			)
 		}
 		out[key] = interpolatedValue
@@ -55,7 +55,7 @@ func interpolateSectionItem(
 func recursiveInterpolate(
 	value interface{},
 	mapping template.Mapping,
-) (interface{}, *template.InvalidTemplateError) {
+) (interface{}, error) {
 
 	switch value := value.(type) {
 
